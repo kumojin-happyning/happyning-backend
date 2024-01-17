@@ -21,6 +21,7 @@ Il s'agit d'un test technique pour la société [Kumojin](https://kumojin.com/).
 ### Spring Boot
 
 - Placez-vous à la racine du projet
+- Installez les dépendances avec `./mvnw install`
 - Démarrez le backend avec `./mvnw spring-boot:run`
 
 > Sinon, démarrez directement le projet depuis votre IDE préféré !
