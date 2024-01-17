@@ -1,0 +1,20 @@
+services:
+  mysql:
+    container_name: happyning-mysql
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: event
+      MYSQL_USER: event
+      MYSQL_PASSWORD: p@ss4event
+  api:
+    container_name: happyning-api
+    build:
+      context: .
+      dockerfile: /buildImage/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
