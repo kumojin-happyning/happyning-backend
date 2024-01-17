@@ -31,3 +31,9 @@ Si vous souhaitez lancer le projet en mode prod, basez-vous directement sur le f
 Il se chargera du build pour vous !
 
 Vous pouvez également lancer le projet en utilisant la stack complète : Voir [Happyning](https://github.com/kumojin-happyning/happyning).
+
+## Documentation
+
+### API
+
+Une fois le projet démarré, vous pouvez accéder au swagger de l'API à l'adresse suivante : `http://localhost:8080/api/events/docs`
