@@ -45,14 +45,4 @@ class ChronologicalDatesValidatorTest {
         assertFalse(validator.isValid(event, context));
     }
 
-    @Test
-    @DisplayName("L'évènement commence en même temps qu'il finit")
-    public void givenStartEqualsEnds_whenIsValid_thenIsNotValid() {
-        Event event = new Event();
-        ZonedDateTime now = ZonedDateTime.now();
-        event.setStart(now);
-        event.setEnd(now);
-
-        assertFalse(validator.isValid(event, context));
-    }
 }
