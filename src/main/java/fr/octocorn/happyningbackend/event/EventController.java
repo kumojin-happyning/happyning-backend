@@ -3,6 +3,7 @@ package fr.octocorn.happyningbackend.event;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.octocorn.happyningbackend.event.dto.EventCreateDto;
 import fr.octocorn.happyningbackend.event.dto.EventDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneId;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
+@CrossOrigin
 public class EventController {
     private final EventService eventService;
 
@@ -26,7 +28,8 @@ public class EventController {
         return events.stream().map(event -> objectMapper.convertValue(event, EventDto.class)).toList();
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public Event save(@RequestBody EventCreateDto newEvent) {
         return eventService.save(
                 eventFromEventCreateDto(newEvent)
@@ -41,12 +44,11 @@ public class EventController {
      */
     private static Event eventFromEventCreateDto(EventCreateDto newEvent) {
         Event event = new Event();
-        ZoneId zoneId = ZoneId.of(newEvent.getTimezone());
 
         event.setName(newEvent.getName());
         event.setDescription(newEvent.getDescription());
-        event.setStart(newEvent.getStart().atZone(zoneId));
-        event.setEnd(newEvent.getEnd().atZone(zoneId));
+        event.setStart(newEvent.getStart());
+        event.setEnd(newEvent.getEnd());
         event.setTimezone(newEvent.getTimezone());
         return event;
     }
