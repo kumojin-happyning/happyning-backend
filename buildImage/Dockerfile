@@ -5,7 +5,7 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-COPY build/application.yml src/main/resources/application.yml
+COPY buildImage/application.yml src/main/resources/application.yml
 
 RUN chmod +x mvnw
 
