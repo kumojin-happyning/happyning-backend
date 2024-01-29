@@ -28,11 +28,11 @@ public class Event {
 
     String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DATETIME")
     @NotNull(message = "Le lieu de l'événement ne peut pas être nul")
     ZonedDateTime start;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DATETIME")
     @NotNull(message = "Le lieu de l'événement ne peut pas être nul")
     ZonedDateTime end;
 }
