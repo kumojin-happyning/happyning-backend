@@ -32,34 +32,11 @@ public class EventController {
     @PostMapping
     public EventDto save(@RequestBody Event event) {
 
-        verifyData(event);
-
         Event eventToSave = eventService.save(event);
 
         return objectMapper.convertValue(eventToSave, EventDto.class);
 
     }
 
-    private static void verifyData(Event event) {
 
-        if (event.getName() == null) {
-            throw new BadRequestException("Le nom est obligatoire");
-        }
-
-        if (event.getName().length() > 33) {
-            throw new BadRequestException("Le nom ne doit pas dépasser 33 caractères");
-        }
-
-        if (event.getStart() == null) {
-            throw new BadRequestException("La date de début est obligatoire");
-        }
-
-        if (event.getEnd() == null) {
-            throw new BadRequestException("La date de fin est obligatoire");
-        }
-
-        if (event.getStart().isAfter(event.getEnd())) {
-            throw new BadRequestException("La date de début doit être avant la date de fin");
-        }
-    }
 }

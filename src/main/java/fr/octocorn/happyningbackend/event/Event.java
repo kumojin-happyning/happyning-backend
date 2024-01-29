@@ -14,6 +14,8 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @Table(name = "event")
+@Builder
+@AllArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
