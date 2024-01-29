@@ -2,6 +2,8 @@ package fr.octocorn.happyningbackend.event;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EventRepository extends JpaRepository<Event, Integer> {
+import java.util.UUID;
+
+public interface EventRepository extends JpaRepository<Event, UUID> {
 
 }

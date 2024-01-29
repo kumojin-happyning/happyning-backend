@@ -1,12 +1,13 @@
 package fr.octocorn.happyningbackend.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.octocorn.happyningbackend.event.dto.EventCreateDto;
 import fr.octocorn.happyningbackend.event.dto.EventDto;
+import fr.octocorn.happyningbackend.event.exception.BadRequestException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,28 +29,37 @@ public class EventController {
         return events.stream().map(event -> objectMapper.convertValue(event, EventDto.class)).toList();
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Event save(@RequestBody EventCreateDto newEvent) {
-        return eventService.save(
-                eventFromEventCreateDto(newEvent)
-        );
+    @PostMapping
+    public EventDto save(@RequestBody Event event) {
+
+        verifyData(event);
+
+        Event eventToSave = eventService.save(event);
+
+        return objectMapper.convertValue(eventToSave, EventDto.class);
+
     }
 
-    /**
-     * Converti un EventCreateDto en Event en prenant en compte le fuseau horaire
-     *
-     * @param newEvent dto à convertir
-     * @return l'Event
-     */
-    private static Event eventFromEventCreateDto(EventCreateDto newEvent) {
-        Event event = new Event();
+    private static void verifyData(Event event) {
 
-        event.setName(newEvent.getName());
-        event.setDescription(newEvent.getDescription());
-        event.setStart(newEvent.getStart());
-        event.setEnd(newEvent.getEnd());
-        event.setTimezone(newEvent.getTimezone());
-        return event;
+        if (event.getName() == null) {
+            throw new BadRequestException("Le nom est obligatoire");
+        }
+
+        if (event.getName().length() > 33) {
+            throw new BadRequestException("Le nom ne doit pas dépasser 33 caractères");
+        }
+
+        if (event.getStart() == null) {
+            throw new BadRequestException("La date de début est obligatoire");
+        }
+
+        if (event.getEnd() == null) {
+            throw new BadRequestException("La date de fin est obligatoire");
+        }
+
+        if (event.getStart().isAfter(event.getEnd())) {
+            throw new BadRequestException("La date de début doit être avant la date de fin");
+        }
     }
 }
