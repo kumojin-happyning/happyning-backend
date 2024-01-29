@@ -62,30 +62,35 @@ class EventServiceTest {
 
     private static Stream<Arguments> provideInvalidEvents() {
         return Stream.of(
+                // Pas de nom
                 Arguments.of(Event.builder()
                         .name(null)
                         .start(ZonedDateTime.parse("2021-10-10T10:00:00+02:00"))
                         .end(ZonedDateTime.parse("2021-10-10T11:00:00+02:00"))
                         .description("test")
                         .build()),
+                // Pas de date de début
                 Arguments.of(Event.builder()
                         .name("test")
                         .start(null)
                         .end(ZonedDateTime.parse("2021-10-10T11:00:00+02:00"))
                         .description("test")
                         .build()),
+                // Nom trop long
                 Arguments.of(Event.builder()
                         .name("Beaucoup plus que 33 caractères donc ça ne passera pas du tout !")
-                        .start(null)
+                        .start(ZonedDateTime.parse("2021-10-10T10:00:00+02:00"))
                         .end(ZonedDateTime.parse("2021-10-10T11:00:00+02:00"))
                         .description("test")
                         .build()),
+                // Pas de date de fin
                 Arguments.of(Event.builder()
                         .name("test")
                         .start(ZonedDateTime.parse("2021-10-10T10:00:00+02:00"))
                         .end(null)
                         .description("test")
                         .build()),
+                // Date de début après date de fin
                 Arguments.of(Event.builder()
                         .name("test")
                         .start(ZonedDateTime.parse("2021-10-10T11:00:00+02:00"))
